@@ -25,14 +25,14 @@ export class GlobalExceptionFilter implements ExceptionFilter {
             : ((resp as any)?.message ?? exception.message);
 
       return response.status(status).json({
-        rescode: String(status),
+        res_code: String(status),
         message: message ?? HttpStatus[status] ?? 'Error',
         data: null,
       });
     }
 
     response.status(500).json({
-      rescode: '9999',
+      res_code: '9999',
       message: (exception as Error).message || 'Internal server error',
     });
   }

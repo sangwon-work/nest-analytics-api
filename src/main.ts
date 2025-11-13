@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { GlobalExceptionFilter } from './core/filter/global-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
+import { TransformInterceptor } from './core/interceptor/transform.interceptor';
+import { ApiAccessLogInterceptor } from './core/interceptor/api-access-log.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -24,6 +26,8 @@ async function bootstrap() {
   );
 
   app.useGlobalFilters(new GlobalExceptionFilter());
+  app.useGlobalInterceptors(new TransformInterceptor());
+  app.useGlobalInterceptors(new ApiAccessLogInterceptor());
 
   await app.listen(process.env.PORT ?? 3000);
 }
