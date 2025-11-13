@@ -1,7 +1,27 @@
-# 📘 Analytics API (NestJS)
+# 🏗️ Project Architecture Overview
 
-CMS 관리 시스템의 API 서버입니다.  
-NestJS 기반으로 개발되었으며, 인증, 응답 처리, 로깅, 예외 처리 등 주요 라이프사이클을 체계적으로 구성하였습니다.
+## ⚙️ Environment Setup
+- **Node.js**: `v22.20.0`
+- **Version Manager**: `nvm`  
+  → 개발 환경 통일을 위해 Node 버전은 `nvm use 22.20.0` 으로 관리합니다.
+- **Environment Variables**
+    - 환경 변수는 `.env` 파일로 관리합니다.
+    - NestJS의 `@nestjs/config` 모듈을 통해 전역적으로 로드되며,  
+      `.env.local`, `.env.dev`, `.env.prod` 등 환경별로 분리됩니다.
+    - 서비스 내에서는 `ConfigService`를 통해 주입받아 사용합니다.
+
+---
+
+## 🧩 Architecture Pattern
+- 본 프로젝트는 **헥사고날 아키텍처(Hexagonal Architecture)** 를 기반으로 설계되었습니다.
+- 구조:
+  domain/
+  ├─ service, model, rule
+  port/
+  ├─ reader.port.ts, writer.port.ts
+  adapter/
+  ├─ mysql.adapter.ts, redis.adapter.ts
+- NestJS 기반으로 개발되었으며, 인증, 응답 처리, 로깅, 예외 처리 등 주요 라이프사이클을 체계적으로 구성하였습니다.
 
 ---
 
@@ -19,7 +39,7 @@ NestJS 기반으로 개발되었으며, 인증, 응답 처리, 로깅, 예외 �
 
 ## ⚙️ 라이프사이클 개요
 
-요청 → **Guard (JWT 인증)** → **Interceptor 1 (요청/응답 로깅)** → **Controller → Service → Model** → **Interceptor 1 (요청/응답 로깅)** → **Interceptor 2 (응답 변환)** → 응답  
+요청 → **Guard (JWT 인증)** → **Interceptor 1 (요청/응답 로깅)** → **Controller** → **Service** → **Interceptor 1 (요청/응답 로깅)** → **Interceptor 2 (응답 변환)** → 응답  
 예외 발생 시 → **Exception Filter (Global)** 처리
 
 
@@ -48,18 +68,13 @@ NestJS 기반으로 개발되었으며, 인증, 응답 처리, 로깅, 예외 �
   ```
 **경로 예시:** src/core/interceptor/transform.interceptor.ts
 
-### 2. `CmsLogInterceptor`
+### 2. `LogInterceptor`
 - 요청 및 응답 로그를 DB에 저장
 - API 호출 시간, URL, HTTP 메서드, 요청자, 요청/응답 등을 기록
 - 비즈니스 로직과 분리되어 비동기 처리 및 트랜잭션 독립성을 유지합니다.
 
 **경로 예시:** src/core/http/cms-log.interceptor.ts
 
-## Project setup
-```
-node version 22.20.0
-nvm use 22.20.0
-```
 ```bash
 $ yarn install
 ```
