@@ -4,7 +4,7 @@ import { ConfigFactory } from '@nestjs/config';
 
 const configFunction: ConfigFactory<Configuration> = () => {
   return {
-    isProd: process.env.NODE_ENV === 'production',
+    isProd: process.env.NODE_ENV !== 'production',
     mysql: {
       host: process.env.MYSQL_HOST!,
       user: process.env.MYSQL_USER!,

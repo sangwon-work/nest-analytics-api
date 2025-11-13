@@ -8,11 +8,8 @@ import { makeTypeOrmOptions } from './mysql/mysql-typeorm.config';
   imports: [
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        ...makeTypeOrmOptions(config), // host/port/username/... 리턴하는 기존 함수
-        keepConnectionAlive: true,     // ← 여기에 넣어야 함 (리턴 객체)
-      }),
-    }),
-  ]
+      useFactory: (config: ConfigService) => makeTypeOrmOptions(config),
+    })
+  ],
 })
 export class DatabaseModule {}
