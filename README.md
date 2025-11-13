@@ -1,4 +1,4 @@
-# 📘 CMS API (NestJS)
+# 📘 Analytics API (NestJS)
 
 CMS 관리 시스템의 API 서버입니다.  
 NestJS 기반으로 개발되었으며, 인증, 응답 처리, 로깅, 예외 처리 등 주요 라이프사이클을 체계적으로 구성하였습니다.
@@ -7,13 +7,13 @@ NestJS 기반으로 개발되었으며, 인증, 응답 처리, 로깅, 예외 �
 
 ## 🧩 프로젝트 구조 요약
 
-| 구성 요소 | 설명 |
-|------------|------|
-| **Framework** | [NestJS](https://nestjs.com/) |
-| **Database** | MySQL (mysql2/promise) |
-| **Language** | TypeScript |
+| 구성 요소 | 설명                                              |
+|------------|-------------------------------------------------|
+| **Framework** | [NestJS](https://nestjs.com/)                   |
+| **Database** | MySQL (mysql2/promise), MongoDB                 |
+| **Language** | TypeScript                                      |
 | **Architecture** | Layered (Controller → Facade → Service → Model) |
-| **Execution Environment** | Node.js 20+, Docker (개발/운영 동일 환경) |
+| **Execution Environment** | Node.js 22+, Docker (개발/운영 동일 환경)               |
 
 ---
 
@@ -57,8 +57,8 @@ NestJS 기반으로 개발되었으며, 인증, 응답 처리, 로깅, 예외 �
 
 ## Project setup
 ```
-node version 20.19.4
-nvm use 20.19.4
+node version 22.20.0
+nvm use 22.20.0
 ```
 ```bash
 $ yarn install
