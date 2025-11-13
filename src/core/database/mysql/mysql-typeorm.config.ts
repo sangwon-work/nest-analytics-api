@@ -18,7 +18,7 @@ export const makeTypeOrmOptions = (config: ConfigService): DataSourceOptions => 
     // autoLoadEntities: true 사용할 수 있어요(아래 참고)
     entities: [__dirname + '/../../**/*.entity.{ts,js}'],
 
-    // 운영에서는 false 권장
+    // 운영에서는 false 권장 엔티티와 데이터베이스 테이블을 자동으로 동기화할지 여부를 지정합니다.
     synchronize: !isProd,
     // 서버 부팅 시 마이그레이션 자동 적용(원하면)
     migrationsRun: isProd,

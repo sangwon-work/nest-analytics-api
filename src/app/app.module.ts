@@ -11,7 +11,7 @@ import configuration from '../core/config/configuration';
       isGlobal: true, // 다른 모듈에서 별도의 설정없이 환경변수의 사용이 가능합니다.
       load: [configuration],
       envFilePath: [
-        `${process.cwd()}/env/.env.${process.env.NODE_ENV}`,
+        `${process.cwd()}/dist/core/config/env/.env.${process.env.NODE_ENV}`,
       ],
     }),
     CoreModule
