@@ -29,7 +29,11 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
-      "prettier/prettier": ["error", { endOfLine: "auto" }],
+      // Prettier 플러그인 오류 보고 규칙에 singleQuote도 반영
+      'prettier/prettier': ['error', { endOfLine: 'auto', singleQuote: true }],
+
+      // 핵심: TS 파일에서 작은따옴표 강제
+      '@typescript-eslint/quotes': ['error', 'single', { avoidEscape: true }],
     },
   },
 );
