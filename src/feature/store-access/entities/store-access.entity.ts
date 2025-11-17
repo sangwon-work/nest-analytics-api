@@ -5,8 +5,11 @@ export class StoreAccess {
   @PrimaryGeneratedColumn()
   store_access_pkey: number;
 
-  // @Column({ length: 10})
-  // s_code: string;
+  @Column({ length: 10, unique: true})
+  store_key: string;
+
+  @Column({ length: 36, unique: true })
+  store_secret_key: string;
 
   @CreateDateColumn()
   reg_at: Date;
