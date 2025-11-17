@@ -5,6 +5,9 @@ export class StoreAccess {
   @PrimaryGeneratedColumn()
   store_access_pkey: number;
 
+  @Column({ length: 50 })
+  store_name: string;
+
   @Column({ length: 10, unique: true})
   store_key: string;
 
