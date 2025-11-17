@@ -13,9 +13,6 @@ const env_file_name = `.env.${node_env}`;
 // ✅ dist/core/database/mysql → ../../../.. → 프로젝트 루트
 const env_file_path = path.resolve(__dirname, '../../../../dist/core/config/env/', env_file_name);
 
-console.log('[data-source.ts] NODE_ENV:', process.env.NODE_ENV);
-console.log('[data-source.ts] envFilePath:', env_file_path);
-
 // .env 로드 (NODE_ENV에 맞게 .env 설정해 놨다면 여기서 읽힘)
 // ✅ 여기서 직접 로드
 dotenv.config({ path: env_file_path });

@@ -7,7 +7,7 @@ import * as path from 'path';
 export const makeTypeOrmOptions = (config: ConfigService): DataSourceOptions => {
   const isProd = config.get<boolean>('isProd');
   const mysql = config.get<Configuration['mysql']>('mysql');
-  console.log(isProd);
+
   return {
     type: 'mysql',
     host: mysql?.host,
