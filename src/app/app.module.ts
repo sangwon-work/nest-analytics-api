@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { CoreModule } from '../core/core.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from '../core/config/configuration';
+import { FeaturesModule } from '../feature/feature.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import configuration from '../core/config/configuration';
         `${process.cwd()}/dist/core/config/env/.env.${process.env.NODE_ENV}`,
       ],
     }),
-    CoreModule
+    CoreModule,
+    FeaturesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

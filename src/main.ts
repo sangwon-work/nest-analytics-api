@@ -4,6 +4,7 @@ import { GlobalExceptionFilter } from './core/filter/global-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { TransformInterceptor } from './core/interceptor/transform.interceptor';
 import { ApiAccessLogInterceptor } from './core/interceptor/api-access-log.interceptor';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,6 +29,17 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalInterceptors(new ApiAccessLogInterceptor());
+
+  const options = new DocumentBuilder()
+    .setTitle('analytics API Documentation')
+    .setDescription('analytics API Documentation')
+    .setVersion('1.0')
+    .addServer('http://localhost:3000', 'Local environment')
+    .addTag('DocumentBuilder')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api-docs', app, document);
 
   await app.listen(process.env.PORT ?? 3000);
 }
