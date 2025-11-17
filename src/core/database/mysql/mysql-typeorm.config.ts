@@ -1,4 +1,4 @@
-// core/database/typeorm.config.ts
+// /core/database/mysql/mysql-typeorm.config.ts
 import { ConfigService } from '@nestjs/config';
 import { DataSourceOptions } from 'typeorm';
 import { Configuration } from '../../config/configuration.interface';
