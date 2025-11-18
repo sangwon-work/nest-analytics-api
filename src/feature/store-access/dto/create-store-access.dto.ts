@@ -10,12 +10,4 @@ export class CreateStoreAccessDto {
   @IsNotEmpty()
   @IsString()
   store_name: string;
-
-  @IsOptional()
-  @IsString()
-  store_key: string = '';
-
-  @IsOptional()
-  @IsString()
-  store_secret_key: string = '';
 }

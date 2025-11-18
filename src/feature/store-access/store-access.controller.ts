@@ -6,7 +6,8 @@ import {
   Patch,
   Param,
   Delete,
-  HttpCode, Query,
+  HttpCode,
+  Query,
 } from '@nestjs/common';
 import { StoreAccessService } from './service/store-access.service';
 import { CreateStoreAccessDto } from './dto/create-store-access.dto';
@@ -15,12 +16,15 @@ import { respond } from '../../shared/utils/response/response';
 import { GetStoreAccessDto } from './dto/get-store-access.dto';
 import { ApiOperation } from '@nestjs/swagger';
 import { RegisterStoreFacadeService } from './facade/register-store.facade.service';
+import { GetStoreAccessListDto } from './dto/get-store-access-list.dto';
+import { GetStoreAccessListFacadeService } from './facade/get-store-access-list-facade.service';
 
 @Controller('store-access')
 export class StoreAccessController {
   constructor(
     private readonly storeAccessService: StoreAccessService,
     private readonly registerStoreFacadeService: RegisterStoreFacadeService,
+    private readonly getStoreAccessListFacadeService: GetStoreAccessListFacadeService,
   ) {}
 
   /**
@@ -28,9 +32,12 @@ export class StoreAccessController {
    */
   @Get('/list')
   @ApiOperation({ summary: '가맹점 목록 조회' })
-  findAll() {
-    this.storeAccessService.findAll();
-    return respond('0000', '', { accessStoreList: [] })
+  async findAll(@Query() getStoreAccessListDto: GetStoreAccessListDto) {
+    const result =
+      await this.getStoreAccessListFacadeService.getStoreAccessListFacade(
+        getStoreAccessListDto,
+      );
+    return respond('0000', '', { storeAccessList: result });
   }
 
   /**
@@ -41,7 +48,7 @@ export class StoreAccessController {
   @ApiOperation({ summary: '가맹점 상세 조회' })
   findOne(@Query() getStoreAccessDto: GetStoreAccessDto) {
     this.storeAccessService.findOne(getStoreAccessDto.store_access_pkey);
-    return respond('0000', '', {})
+    return respond('0000', '', {});
   }
 
   /**
@@ -52,7 +59,10 @@ export class StoreAccessController {
   @HttpCode(200)
   @ApiOperation({ summary: '가맹점 등록' })
   async create(@Body() createStoreAccessDto: CreateStoreAccessDto) {
-    const { store_access_pkey } = await this.registerStoreFacadeService.registerStoreFacade(createStoreAccessDto);
+    const { store_access_pkey } =
+      await this.registerStoreFacadeService.registerStoreFacade(
+        createStoreAccessDto,
+      );
     return respond('0000', '', { store_access_pkey: store_access_pkey });
   }
 
@@ -64,8 +74,11 @@ export class StoreAccessController {
   @Patch()
   @HttpCode(200)
   @ApiOperation({ summary: '가맹점 수정' })
-  update(@Param('id') id: string, @Body() updateStoreAccessDto: UpdateStoreAccessDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateStoreAccessDto: UpdateStoreAccessDto,
+  ) {
     this.storeAccessService.update(updateStoreAccessDto);
-    return respond('0000', '', {})
+    return respond('0000', '', {});
   }
 }

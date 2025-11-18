@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StoreAccess } from '../entities/store-access.entity';
-import { Repository } from 'typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 import { CreateStoreAccessDto } from '../dto/create-store-access.dto';
 
 @Injectable()
@@ -9,11 +9,22 @@ export class RegisterStoreService {
   constructor(
     @InjectRepository(StoreAccess)
     private readonly storeAccessRepository: Repository<StoreAccess>,
+    private readonly dataSource: DataSource,
   ) {}
 
   async registerStore(
     createStoreAccessDto: CreateStoreAccessDto,
-  ): Promise<{  store_access_pkey: number }> {
+  ): Promise<{ store_access_pkey: number }> {
+    let store_access_pkey = 0;
+    const store_access =
+      this.storeAccessRepository.create(createStoreAccessDto);
+
+    await this.dataSource.transaction(async (manager: EntityManager) => {
+      const result_store_access =
+        await this.storeAccessRepository.save(store_access);
+      store_access_pkey = result_store_access.store_access_pkey;
+      throw '가맹점 등록 실패';
+    });
     /**
      * repository.create() 란?
      * 엔티티 인스턴스를 "메모리에서" 생성하는 것
@@ -22,10 +33,11 @@ export class RegisterStoreService {
      * - TypeORM은 이 시점에 밸리데이션 or 트리거 아무 것도 동작 안함
      * ** -> create는 "객체 생성", save가 "DB insert/update"
      */
-    const store_access = this.storeAccessRepository.create(createStoreAccessDto);
-    const result_store_access =
-      await this.storeAccessRepository.save(store_access);
+    // const store_access =
+    //   this.storeAccessRepository.create(createStoreAccessDto);
+    // const result_store_access =
+    //   await this.storeAccessRepository.save(store_access);
 
-    return { store_access_pkey: result_store_access.store_access_pkey };
+    return { store_access_pkey: store_access_pkey };
   }
 }
